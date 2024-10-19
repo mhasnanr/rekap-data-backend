@@ -183,8 +183,8 @@ const inferDataStatus = async (idAnak, usia, pertamaKali, beratBadan, tanggalPem
   if (pertamaKali) return 'B';
   else {
     if (now !== null && prevOne !== null && prevTwo !== null) {
-      const diffOne = parseFloat((now - prevOne).toFixed(2)) * 1000;
-      const diffTwo = parseFloat((prevOne - prevTwo).toFixed(2)) * 1000;
+      const diffOne = parseFloat(now - prevOne).toFixed(2) * 1000;
+      const diffTwo = parseFloat(prevOne - prevTwo).toFixed(2) * 1000;
       if (isBelowTheThreshold(usia, diffOne) && isBelowTheThreshold(usia - 1, diffTwo)) {
         return '2T';
       } else if (diffOne > 0) {

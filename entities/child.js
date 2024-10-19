@@ -160,42 +160,51 @@ const immunisationTypes = [
   'DPT-HB-Hib 1',
   'Polio 2',
   'PCV 1',
-  'Rotavirus 1',
+  'Rota Virus 1',
   'DPT-HB-Hib 2',
   'Polio 3',
   'PCV 2',
-  'Rotavirus 2',
+  'Rota Virus 2',
   'DPT-HB-Hib 3',
   'Polio 4',
   'IPV',
-  'Rotavirus 3',
+  'Rota Virus 3',
   'MR',
   'IPV 2',
   'PCV 3',
-  'Booster DPT-HBS-Hib',
+  'Booster DPT-HB-Hib',
   'Booster MR',
 ];
 
 const getImmunisationSummary = async (year, month) => {
-  const result = {};
+  let result = {};
   immunisationTypes.forEach((field) => {
     result[field] = { l: 0, p: 0, total: 0 };
   });
 
-  const immunisation = await Immunisation.find();
+  try {
+    const immunisations = await Immunisation.find();
 
-  immunisation.forEach((immunisation) => {
-    let jenisKelamin = immunisation.jenisKelamin.toLowerCase();
-    immunisation.imunisasi.forEach((item) => {
-      const name = item.name.split('_')[0];
-      const date = new Date(item.date);
-      const [tahun, bulan] = [date.getFullYear(), date.getMonth()];
-      if (year === tahun && month === bulan + 1) {
-        result[name][jenisKelamin]++;
-        result[name].total++;
-      }
+    immunisations.forEach((immunisation) => {
+      let jenisKelamin = immunisation.jenisKelamin.toLowerCase();
+      immunisation.imunisasi.forEach((item) => {
+        const name = item.name.split('_')[0];
+        const date = new Date(item.date);
+        const [tahun, bulan] = [date.getFullYear(), date.getMonth()];
+
+        if (year === tahun && month === bulan + 1) {
+          if (!result[name]) {
+            console.warn(`Nama imunisasi ${name} tidak ditemukan di result.`);
+            return; // atau lanjut ke item berikutnya
+          }
+          result[name][jenisKelamin] += 1;
+          result[name]['total'] += 1;
+        }
+      });
     });
-  });
+  } catch (error) {
+    console.error('Error occurred:', error);
+  }
 
   return result;
 };

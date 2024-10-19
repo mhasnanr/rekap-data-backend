@@ -121,8 +121,8 @@ const commitJumlahBalitaNaik = (data, month) => {
       summary['B'][jenisKelamin]++;
     } else {
       if (now !== null && prevOne !== null && prevTwo !== null) {
-        const diffOne = parseFloat((now - prevOne).toFixed(2)) * 1000;
-        const diffTwo = parseFloat((prevOne - prevTwo).toFixed(2)) * 1000;
+        const diffOne = parseFloat(now - prevOne).toFixed(2) * 1000;
+        const diffTwo = parseFloat(prevOne - prevTwo).toFixed(2) * 1000;
         if (thresholdCheck(usia, diffOne)[1] && thresholdCheck(usia - 1, diffTwo)[1]) {
           summary['2T'][jenisKelamin]++;
         } else if (diffOne > 0) {
@@ -136,12 +136,13 @@ const commitJumlahBalitaNaik = (data, month) => {
           summary['T'][jenisKelamin]++;
         }
       } else if (now !== null && prevOne !== null) {
-        const difference = parseFloat((now - prevOne).toFixed(2)) * 1000;
+        const difference = parseFloat(now - prevOne).toFixed(2) * 1000;
         if (difference > 0) {
-          if (thresholdCheck(usia, diffOne)[1]) {
+          if (thresholdCheck(usia, difference)[1]) {
             summary['T'][jenisKelamin]++;
           } else {
-            summary[summaryRange][jenisKelamin]++;
+            const diffTwo = parseFloat(prevOne - prevTwo).toFixed(2) * 1000;
+            summary[thresholdCheck(usia, diffTwo)[0]][jenisKelamin]++;
             summary['total'][jenisKelamin]++;
           }
         } else {
