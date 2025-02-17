@@ -88,7 +88,7 @@ const commitJumlahBalitaNaik = (data, month) => {
     } else if (usia >= 24 && usia <= 35) {
       rangeUsia = '12-60';
       summaryRange = '24-35';
-    } else if (usia >= 36 && usia <= 59) {
+    } else if (usia >= 36) {
       rangeUsia = '12-60';
       summaryRange = '36-59';
     }
