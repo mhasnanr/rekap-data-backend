@@ -22,7 +22,7 @@ const getSummaries = async (req, res) => {
       (item) => item.status['bb/tb'] === 'Gizi buruk' || item.status['bb/tb'] === 'Gizi kurang'
     ).length;
     const pemeriksaan2TLength = pemeriksaan.filter(
-      (item) => item.statusPerkembangan === 'N'
+      (item) => item.statusPerkembangan === '2T'
     ).length;
 
     const summary = {
